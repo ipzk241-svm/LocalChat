@@ -127,37 +127,39 @@ namespace ChatForm
 			await ConnectToServerAsync();
 		}
 
-		private async void SendButton_Click(object sender, EventArgs e)
-		{
-			var message = MessageBox.Text;
-			var currentTime = DateTime.Now.ToString("HH:mm");
+        private async void SendButton_Click(object sender, EventArgs e)
+        {
+            var message = MessageBox.Text.Trim();
 
-			if (!string.IsNullOrEmpty(_selectedUser) && _selectedUser != _username)
-			{
-				await _chatService.SendPrivateMessageAsync(message, _selectedUser, _username);
+            if (!string.IsNullOrEmpty(_selectedUser) && _selectedUser != _username)
+            {
+                await SendPrivateMessageAsync(message, _selectedUser);
+            }
+            else
+            {
+                await _chatService.SendMessageToGroupAsync(message, _username);
+            }
 
-				var privateMessage = $"[{currentTime}] [You -> {_selectedUser}]: {message}";
+            MessageBox.Clear();
+        }
 
-				if (!_privateChats.ContainsKey(_selectedUser))
-				{
-					_privateChats[_selectedUser] = new List<string>();
-				}
-				_privateChats[_selectedUser].Add(privateMessage);
+        private async Task SendPrivateMessageAsync(string message, string recipient)
+        {
+            var timestamp = DateTime.Now.ToString("HH:mm");
+            var privateMessage = $"[{timestamp}] [You -> {recipient}]: {message}";
 
-				if (_selectedUser == CurrentChatUser)
-				{
-					ChatBox.AppendText(privateMessage + Environment.NewLine);
-				}
-			}
-			else
-			{
-				await _chatService.SendMessageToGroupAsync(message, _username);
-			}
+            if (!_privateChats.ContainsKey(recipient))
+            {
+                _privateChats[recipient] = new List<string>();
+            }
+            _privateChats[recipient].Add(privateMessage);
 
-			MessageBox.Clear();
-		}
+            UpdateChatBox();
 
-		private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
+            await _chatService.SendPrivateMessageAsync(message, recipient, _username);
+        }
+
+        private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (_chatService != null && !string.IsNullOrEmpty(_username))
 			{
