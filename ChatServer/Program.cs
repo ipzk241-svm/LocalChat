@@ -16,7 +16,7 @@ namespace ChatServer
        {
            try
            {
-               var callback = OperationContext.Current.GetCallbackChannel<IChatCallback>();
+               var callback = OperationContext.Current?.GetCallbackChannel<IChatCallback>();
 
                if (_users.ContainsKey(username))
                {
@@ -47,20 +47,20 @@ namespace ChatServer
 		public async Task SendMessageToGroupAsync(string message, string sender)
 		{
 			if (string.IsNullOrWhiteSpace(message)) return;
+            var formattedMessage = FormatMessage(sender, message);
 
-			var currentTime = DateTime.Now.ToString("HH:mm");
 			foreach (var user in _users.Values)
 			{
-				user.ReceiveMessage($"[{currentTime}] {sender}: {message}");
+				user.ReceiveMessage(formattedMessage);
 			}
 		}
 
 		public async Task SendPrivateMessageAsync(string message, string recipient, string sender)
         {
-            var currentTime = DateTime.Now.ToString("HH:mm");
+            var formattedMessage = FormatMessage(sender, message, isPrivate: true);
             if (_users.TryGetValue(recipient, out var callback))
             {
-                callback.ReceiveMessage($"[{currentTime}] [Private] {sender}: {message}");
+                callback.ReceiveMessage(formattedMessage);
             }
             else
             {
@@ -69,6 +69,14 @@ namespace ChatServer
                     senderCallback.ReceiveMessage($"[System]: User '{recipient}' is not online.");
                 }
             }
+        }
+
+        private static string FormatMessage(string sender, string message, bool isPrivate = false)
+        {
+            var currentTime = DateTime.Now.ToString("HH:mm");
+            return isPrivate
+                ? $"[{currentTime}] [Private] {sender}: {message}"
+                : $"[{currentTime}] {sender}: {message}";
         }
 
         public async Task<List<string>> GetOnlineUsersAsync()
