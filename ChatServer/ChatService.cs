@@ -75,7 +75,7 @@ namespace ChatServer
         {
             var currentTime = DateTime.Now.ToString("HH:mm");
             return isPrivate
-                ? $"[{currentTime}] [Private] {sender}: {message}"
+                ? $"[{currentTime}] {ChatConstants.PrivateMessagePrefix} {sender}: {message}"
                 : $"[{currentTime}] {sender}: {message}";
         }
 
