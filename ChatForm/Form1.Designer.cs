@@ -110,7 +110,6 @@
 			// SendButton
 			// 
 			this.SendButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-			this.SendButton.BackgroundImage = global::ChatForm.Properties.Resources.send_message;
 			this.SendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.SendButton.Enabled = false;
 			this.SendButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
