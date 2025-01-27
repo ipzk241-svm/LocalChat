@@ -59,7 +59,7 @@ namespace ChatForm
 		{
 			ChatBox.Invoke(new MethodInvoker(() =>
 			{
-				if (message.Contains("[Private]"))
+				if (message.Contains(ChatConstants.PrivateMessagePrefix))
 				{
 					var sender = message.Split(' ')[2].TrimEnd(':');
 					if (!_privateChats.ContainsKey(sender))
@@ -258,12 +258,6 @@ namespace ChatForm
 				}
 				finally
 				{
-					ConnectButton.Enabled = true;
-					UsernameBox.Enabled = true;
-					SendButton.Enabled = false;
-					OnlineUsers.Enabled = false;
-					DisconnectButton.Enabled = false;
-					MessageBox.Enabled = false;
 					DisconnectCleanup();
 				}
 			}
@@ -277,8 +271,11 @@ namespace ChatForm
 			ConnectButton.Enabled = true;
 			UsernameBox.Enabled = true;
 			DisconnectButton.Enabled = false;
+            SendButton.Enabled = false;
+            OnlineUsers.Enabled = false;
+            MessageBox.Enabled = false;
 
-			OnlineUsers.Items.Clear();
+            OnlineUsers.Items.Clear();
 			ChatBox.AppendText("You are offline." + Environment.NewLine);
 		}
 
