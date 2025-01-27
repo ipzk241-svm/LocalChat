@@ -167,52 +167,78 @@ namespace ChatForm
 			}
 		}
 
-		private void OnlineUsers_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (OnlineUsers.SelectedItem != null)
-			{
-				_selectedUser = OnlineUsers.SelectedItem.ToString();
-				if (_selectedUser == CurrentChatUser)
-				{
-					CurrentChatUser = null;
-					OnlineUsers.SelectedItem = null;
-					foreach (var message in _groupChat)
-					{
-						ChatBox.AppendText(message + Environment.NewLine);
-					}
-					return;
-				}
-				CurrentChatUser = _selectedUser;
+        private void OnlineUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (OnlineUsers.SelectedItem != null)
+            {
+                _selectedUser = OnlineUsers.SelectedItem.ToString();
 
-				ChatBox.Clear();
+                if (_selectedUser == CurrentChatUser)
+                {
+                    DeselectCurrentChat();
+                    return;
+                }
 
-				if (_selectedUser == _username || string.IsNullOrEmpty(_selectedUser))
-				{
-					CurrentChatUser = null;
-					OnlineUsers.SelectedItem = null;
-					foreach (var message in _groupChat)
-					{
-						ChatBox.AppendText(message + Environment.NewLine);
-					}
-				}
-				else if (_privateChats.ContainsKey(_selectedUser))
-				{
-					foreach (var message in _privateChats[_selectedUser])
-					{
-						ChatBox.AppendText(message + Environment.NewLine);
-					}
-				}
-			}
-			else
-			{
-				_selectedUser = null;
-				CurrentChatUser = null;
-				ChatBox.Clear();
-				ChatBox.AppendText("You are now in the general chat." + Environment.NewLine);
-			}
-		}
+                CurrentChatUser = _selectedUser;
+                ChatBox.Clear();
 
-		private void Form1_Load(object sender, EventArgs e)
+                if (IsCurrentUserOrEmpty(_selectedUser))
+                {
+                    DeselectCurrentChat();
+                }
+                else
+                {
+                    UpdatePrivateChat(_selectedUser);
+                }
+            }
+            else
+            {
+                SwitchToGeneralChat();
+            }
+        }
+
+        private void DeselectCurrentChat()
+        {
+            CurrentChatUser = null;
+            OnlineUsers.SelectedItem = null;
+            UpdateGeneralChat();
+        }
+
+        private bool IsCurrentUserOrEmpty(string selectedUser)
+        {
+            return selectedUser == _username || string.IsNullOrEmpty(selectedUser);
+        }
+
+        private void UpdateGeneralChat()
+        {
+            ChatBox.Clear();
+            foreach (var message in _groupChat)
+            {
+                ChatBox.AppendText(message + Environment.NewLine);
+            }
+        }
+
+        private void UpdatePrivateChat(string selectedUser)
+        {
+            if (_privateChats.ContainsKey(selectedUser))
+            {
+                foreach (var message in _privateChats[selectedUser])
+                {
+                    ChatBox.AppendText(message + Environment.NewLine);
+                }
+            }
+        }
+
+        private void SwitchToGeneralChat()
+        {
+            _selectedUser = null;
+            CurrentChatUser = null;
+            ChatBox.Clear();
+            ChatBox.AppendText("You are now in the general chat." + Environment.NewLine);
+            UpdateGeneralChat();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
 		{
 
 		}
