@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35431.28
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatLibrary", "ChatLibrary\ChatLibrary.csproj", "{63E3D13E-0551-4B9B-90C6-B6DEC2E3FF3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatServer", "ChatServer\ChatServer.csproj", "{6CD4A60D-AA2E-4216-A5F6-91588277ACB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatForm", "ChatForm\ChatForm.csproj", "{BC1DFAAB-AD99-4BA3-8737-EBD520B0E4D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63E3D13E-0551-4B9B-90C6-B6DEC2E3FF3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63E3D13E-0551-4B9B-90C6-B6DEC2E3FF3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63E3D13E-0551-4B9B-90C6-B6DEC2E3FF3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63E3D13E-0551-4B9B-90C6-B6DEC2E3FF3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD4A60D-AA2E-4216-A5F6-91588277ACB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD4A60D-AA2E-4216-A5F6-91588277ACB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD4A60D-AA2E-4216-A5F6-91588277ACB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD4A60D-AA2E-4216-A5F6-91588277ACB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC1DFAAB-AD99-4BA3-8737-EBD520B0E4D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1DFAAB-AD99-4BA3-8737-EBD520B0E4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1DFAAB-AD99-4BA3-8737-EBD520B0E4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1DFAAB-AD99-4BA3-8737-EBD520B0E4D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {668EB496-3A6D-4428-BCB5-47A65D4AE2A5}
+	EndGlobalSection
+EndGlobal
