@@ -73,30 +73,15 @@ namespace ChatForm
 					_groupChat.Add(message);
 				}
 
-				UpdateChatBox();
-			}));
-		}
-		private void UpdateChatBox()
-		{
-			ChatBox.Clear();
-
-			if (!string.IsNullOrEmpty(_selectedUser) && _selectedUser != _username)
-			{
-				if (_privateChats.ContainsKey(_selectedUser))
-				{
-					foreach (var message in _privateChats[_selectedUser])
-					{
-						ChatBox.AppendText(message + Environment.NewLine);
-					}
-				}
-			}
-			else
-			{
-				foreach (var message in _groupChat)
-				{
-					ChatBox.AppendText(message + Environment.NewLine);
-				}
-			}
+                if (!string.IsNullOrEmpty(_selectedUser) && _selectedUser != _username && _privateChats.ContainsKey(_selectedUser))
+                {
+                    UpdateChat(_privateChats[_selectedUser]); // Оновлюємо приватний чат
+                }
+                else
+                {
+                    UpdateChat(_groupChat); // Оновлюємо загальний чат
+                }
+            }));
 		}
 
 		public void UpdateUserList(List<string> users)
@@ -154,7 +139,14 @@ namespace ChatForm
             }
             _privateChats[recipient].Add(privateMessage);
 
-            UpdateChatBox();
+            if (!string.IsNullOrEmpty(_selectedUser) && _selectedUser != _username && _privateChats.ContainsKey(_selectedUser))
+            {
+                UpdateChat(_privateChats[_selectedUser]); // Оновлюємо приватний чат
+            }
+            else
+            {
+                UpdateChat(_groupChat); // Оновлюємо загальний чат
+            }
 
             await _chatService.SendPrivateMessageAsync(message, recipient, _username);
         }
@@ -209,25 +201,22 @@ namespace ChatForm
             return selectedUser == _username || string.IsNullOrEmpty(selectedUser);
         }
 
-        private void UpdateGeneralChat()
+        private void UpdateChat(IEnumerable<string> messages)
         {
             ChatBox.Clear();
-            foreach (var message in _groupChat)
+            foreach (var message in messages)
             {
                 ChatBox.AppendText(message + Environment.NewLine);
             }
         }
-
         private void UpdatePrivateChat(string selectedUser)
         {
             if (_privateChats.ContainsKey(selectedUser))
             {
-                foreach (var message in _privateChats[selectedUser])
-                {
-                    ChatBox.AppendText(message + Environment.NewLine);
-                }
+                UpdateChat(_privateChats[selectedUser]);
             }
         }
+        private void UpdateGeneralChat() => UpdateChat(_groupChat);
 
         private void SwitchToGeneralChat()
         {
